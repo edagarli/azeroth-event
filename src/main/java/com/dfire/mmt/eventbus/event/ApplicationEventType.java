@@ -46,21 +46,28 @@ public class ApplicationEventType {
         if (this == obj) {
             return true;
         }
-        if (obj == null)
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ApplicationEventType other = (ApplicationEventType) obj;
         if (tag == null) {
-            if (other.tag != null)
+            if (other.tag != null) {
                 return false;
-        } else if (!tag.equals(other.tag))
+            }
+        } else if (!tag.equals(other.tag)) {
             return false;
+        }
         if (type == null) {
-            if (other.type != null)
+            if (other.type != null) {
                 return false;
-        } else if (!type.equals(other.type))
+            }
+        } else if (!type.equals(other.type)) {
             return false;
+        }
         return true;
     }
 }
