@@ -4,6 +4,8 @@ import java.lang.reflect.Type;
 
 /**
  * 事件类型
+ *
+ * @author edagarli
  */
 public class ApplicationEventType {
     /**

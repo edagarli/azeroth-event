@@ -1,17 +1,17 @@
 package com.github.edagarli.eventbus.command;
 
-import com.github.edagarli.eventbus.Constants;
+import com.github.edagarli.eventbus.commons.Constants;
 import com.lmax.disruptor.ExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author edagarli(卤肉)
- *         Email: lizhi@edagarli.com
- *         github: http://github.com/edagarli
- *         Date: 2017/12/14
- *         Time: 23:40
- *         Desc:
+ * Email: lizhi@edagarli.com
+ * github: http://github.com/edagarli
+ * Date: 2017/12/14
+ * Time: 23:40
+ * Desc:
  */
 public class CommandEventExceptionHandler<E extends CommandEvent> implements ExceptionHandler<E> {
 

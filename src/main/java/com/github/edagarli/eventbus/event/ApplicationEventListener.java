@@ -25,12 +25,13 @@ import java.util.EventListener;
  *
  * @author Rod Johnson
  */
-public interface ApplicationEventListener<E extends ApplicationEvent> extends EventListener {
+public interface ApplicationEventListener<E extends BaseApplicationEvent> extends EventListener {
 
-	/**
-	 * Handle an application event.
-	 * @param event the event to respond to
-	 */
-	void onApplicationEvent(E event);
+    /**
+     * Handle an application event.
+     *
+     * @param event the event to respond to
+     */
+    void onApplicationEvent(E event);
 
 }

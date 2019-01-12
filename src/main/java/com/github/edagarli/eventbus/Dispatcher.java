@@ -17,11 +17,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author edagarli(卤肉)
- *         Email: lizhi@edagarli.com
- *         github: http://github.com/edagarli
- *         Date: 2017/12/14
- *         Time: 23:40
- *         Desc: 异步事件处理分发器
+ * Email: lizhi@edagarli.com
+ * github: http://github.com/edagarli
+ * Date: 2017/12/14
+ * Time: 23:40
+ * Desc: 异步事件处理分发器
  */
 public class Dispatcher {
 
@@ -83,7 +83,7 @@ public class Dispatcher {
 
                 @Override
                 public void onEvent(CommandEvent commandEvent) throws Exception {
-                    channel.handle(commandEvent.getApplicationEventListenerHelper(), commandEvent.getApplicationEvent());
+                    channel.handle(commandEvent.getApplicationEventListenerDomain(), commandEvent.getApplicationEvent());
                 }
             });
             conDisruptor.handleEventsWithWorkerPool(handlers);

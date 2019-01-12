@@ -6,11 +6,11 @@ import java.lang.annotation.*;
 
 /**
  * @author edagarli(卤肉)
- *         Email: lizhi@edagarli.com
- *         github: http://github.com/edagarli
- *         Date: 2017/12/14
- *         Time: 23:40
- *         Desc: 注解标记需要扫描的监听器
+ * Email: lizhi@edagarli.com
+ * github: http://github.com/edagarli
+ * Date: 2017/12/14
+ * Time: 23:40
+ * Desc: 注解标记需要扫描的监听器
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})

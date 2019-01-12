@@ -27,13 +27,19 @@ public class DemoTest {
     @Resource
     EventBus eventBus;
 
-    /** 扫描监听包位置(默认全局包括jar包) */
-    private final static String SCAN_PACKAGE = "com.dfire.mmt.eventbus.listener";
+    /**
+     * 扫描监听包位置(默认全局包括jar包)
+     */
+    private final static String SCAN_PACKAGE = "com.github.edagarli.eventbus.listener";
 
-    /** 环队列大小 */
+    /**
+     * 环队列大小
+     */
     private final static int CON_BUFFER_SIZE = 2048;
 
-    /** 异步线程数 */
+    /**
+     * 异步线程数
+     */
     private final static int ASYNC_THREAD_NUM = 32;
 
 

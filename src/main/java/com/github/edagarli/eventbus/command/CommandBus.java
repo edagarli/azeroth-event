@@ -1,9 +1,9 @@
 package com.github.edagarli.eventbus.command;
 
-import com.github.edagarli.eventbus.Constants;
-import com.github.edagarli.eventbus.event.ApplicationEvent;
-import com.github.edagarli.eventbus.event.ApplicationEventListenerHelper;
+import com.github.edagarli.eventbus.commons.Constants;
+import com.github.edagarli.eventbus.bean.ApplicationEventListenerDomain;
 import com.github.edagarli.eventbus.event.ApplicationEventType;
+import com.github.edagarli.eventbus.event.BaseApplicationEvent;
 import com.github.edagarli.eventbus.utils.CommonMultimap;
 import com.lmax.disruptor.InsufficientCapacityException;
 import com.lmax.disruptor.RingBuffer;
@@ -15,13 +15,12 @@ import java.util.Collection;
 
 /**
  * 事件工具类
- *
  */
 public class CommandBus {
 
     private static RingBuffer<CommandEvent> conRingBuffer;
 
-    private static CommonMultimap<ApplicationEventType, ApplicationEventListenerHelper> map;
+    private static CommonMultimap<ApplicationEventType, ApplicationEventListenerDomain> map;
 
     private static boolean enableAsync;
 
@@ -43,7 +42,7 @@ public class CommandBus {
      * @return EventBus
      * @since 1.0.0
      */
-    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, ApplicationEventListenerHelper> map, RingBuffer<CommandEvent> conRingBuffer) {
+    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, ApplicationEventListenerDomain> map, RingBuffer<CommandEvent> conRingBuffer) {
         CommandBus.conRingBuffer = conRingBuffer;
         CommandBus.map = map;
         CommandBus.enableAsync = enableAsync;
@@ -57,7 +56,7 @@ public class CommandBus {
      * @return EventBus
      * @since 1.0.0
      */
-    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, ApplicationEventListenerHelper> map) {
+    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, ApplicationEventListenerDomain> map) {
         CommandBus.map = map;
         CommandBus.enableAsync = enableAsync;
     }
@@ -69,7 +68,7 @@ public class CommandBus {
      * @param event  事件
      * @since 1.0.0
      */
-    private static boolean publish(final ApplicationEventListenerHelper helper, final ApplicationEvent event) {
+    private static boolean publish(final ApplicationEventListenerDomain helper, final BaseApplicationEvent event) {
         try {
             long seq = conRingBuffer.tryNext();
             //the remaining capacity of the buffer < the size of the buffer * 0.2
@@ -80,7 +79,7 @@ public class CommandBus {
             }
             CommandEvent commandEvent = conRingBuffer.get(seq);
             commandEvent.setApplicationEvent(event);
-            commandEvent.setApplicationEventListenerHelper(helper);
+            commandEvent.setApplicationEventListenerDomain(helper);
             conRingBuffer.publish(seq);
         } catch (InsufficientCapacityException e) {
             LOGGER.error(Constants.Logger.APP_EXCEPTION + "conRingBuffer too late to consume error message,you may increase conBufferSize/asyncThreads " + e.toString());
@@ -96,14 +95,14 @@ public class CommandBus {
      * @param event                事件
      * @since 1.0.0
      */
-    public static void publish(final ApplicationEventType applicationEventType, final ApplicationEvent event) {
-        Collection<ApplicationEventListenerHelper> listenerList = map.get(applicationEventType);
+    public static void publish(final ApplicationEventType applicationEventType, final BaseApplicationEvent event) {
+        Collection<ApplicationEventListenerDomain> listenerList = map.get(applicationEventType);
         if (listenerList != null && !listenerList.isEmpty()) {
-            for (final ApplicationEventListenerHelper helper : listenerList) {
-                if (enableAsync && helper.enableAsync) {
-                    publish(helper, event);
+            for (final ApplicationEventListenerDomain domain : listenerList) {
+                if (enableAsync && domain.enableAsync) {
+                    publish(domain, event);
                 } else {
-                    handle(helper, event);
+                    handle(domain, event);
                 }
             }
         }
@@ -112,13 +111,13 @@ public class CommandBus {
     /**
      * 处理事件
      *
-     * @param helper 事件处理器
+     * @param domain 事件处理器
      * @param event  事件
      * @since 1.0.0
      */
-    public static void handle(final ApplicationEventListenerHelper helper, final ApplicationEvent event) {
+    public static void handle(final ApplicationEventListenerDomain domain, final BaseApplicationEvent event) {
         try {
-            helper.listener.onApplicationEvent(event);
+            domain.listener.onApplicationEvent(event);
         } catch (Exception e) {
             LOGGER.error(Constants.Logger.APP_EXCEPTION + "commandBus handle event error message" + e.toString());
         }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * Desc:
  */
 @Component
-@Listener(priority = 1, tag = "123", enableAsync = true)
+@Listener(priority = 1, tag = "123", enableAsync = false)
 public class TestTwoListener implements ApplicationEventListener<EventSource> {
 
     @Override

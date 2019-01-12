@@ -1,31 +1,33 @@
 package com.github.edagarli.eventbus.command;
 
 
-import com.github.edagarli.eventbus.event.ApplicationEvent;
-import com.github.edagarli.eventbus.event.ApplicationEventListenerHelper;
+import com.github.edagarli.eventbus.bean.ApplicationEventListenerDomain;
+import com.github.edagarli.eventbus.event.BaseApplicationEvent;
 
 /**
  * 事件对象工具类用于，用于数据暂存对象
+ *
+ * @author edagarli
  */
 public class CommandEvent {
 
-    ApplicationEvent applicationEvent;
+    private BaseApplicationEvent applicationEvent;
 
-    ApplicationEventListenerHelper applicationEventListenerHelper;
+    private ApplicationEventListenerDomain applicationEventListenerDomain;
 
-    public ApplicationEventListenerHelper getApplicationEventListenerHelper() {
-        return applicationEventListenerHelper;
+    public ApplicationEventListenerDomain getApplicationEventListenerDomain() {
+        return applicationEventListenerDomain;
     }
 
-    public void setApplicationEventListenerHelper(ApplicationEventListenerHelper applicationEventListenerHelper) {
-        this.applicationEventListenerHelper = applicationEventListenerHelper;
+    public void setApplicationEventListenerDomain(ApplicationEventListenerDomain applicationEventListenerDomain) {
+        this.applicationEventListenerDomain = applicationEventListenerDomain;
     }
 
-    public ApplicationEvent getApplicationEvent() {
+    public BaseApplicationEvent getApplicationEvent() {
         return applicationEvent;
     }
 
-    public void setApplicationEvent(ApplicationEvent applicationEvent) {
+    public void setApplicationEvent(BaseApplicationEvent applicationEvent) {
         this.applicationEvent = applicationEvent;
     }
 

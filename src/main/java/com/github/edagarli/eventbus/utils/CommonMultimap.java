@@ -9,11 +9,11 @@ import java.util.Map;
 
 /**
  * @author edagarli(卤肉)
- *         Email: lizhi@edagarli.com
- *         github: http://github.com/edagarli
- *         Date: 2017/12/14
- *         Time: 23:40
- *         Desc: 重复key的map，使用监听的type，取出所有的监听器
+ * Email: lizhi@edagarli.com
+ * github: http://github.com/edagarli
+ * Date: 2017/12/14
+ * Time: 23:40
+ * Desc: 重复key的map，使用监听的type，取出所有的监听器
  */
 public class CommonMultimap<K, V> {
 
@@ -62,6 +62,7 @@ public class CommonMultimap<K, V> {
 
     /**
      * map大小
+     *
      * @return
      */
     public int size() {

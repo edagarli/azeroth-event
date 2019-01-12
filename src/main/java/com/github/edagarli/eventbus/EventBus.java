@@ -1,11 +1,12 @@
 package com.github.edagarli.eventbus;
 
+import com.github.edagarli.eventbus.bean.ApplicationEventListenerDomain;
 import com.github.edagarli.eventbus.channel.MemoryChannel;
 import com.github.edagarli.eventbus.command.CommandBus;
-import com.github.edagarli.eventbus.event.ApplicationEvent;
-import com.github.edagarli.eventbus.event.ApplicationEventListenerHelper;
-import com.github.edagarli.eventbus.event.ApplicationEventType;
+import com.github.edagarli.eventbus.commons.Constants;
 import com.github.edagarli.eventbus.event.ApplicationEventListener;
+import com.github.edagarli.eventbus.event.ApplicationEventType;
+import com.github.edagarli.eventbus.event.BaseApplicationEvent;
 import com.github.edagarli.eventbus.utils.ClassUtil;
 import com.github.edagarli.eventbus.utils.CommonMultimap;
 import org.slf4j.Logger;
@@ -20,12 +21,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author edagarli(卤肉)
- *         Email: lizhi@edagarli.com
- *         github: http://github.com/edagarli
- *         Date: 2017/12/14
- *         Time: 23:40
- *         Desc: 注解标记需要扫描的监听器
- *         <pre>
+ * Email: lizhi@edagarli.com
+ * github: http://github.com/edagarli
+ * Date: 2017/12/14
+ * Time: 23:40
+ * Desc: 注解标记需要扫描的监听器
+ * <pre>
  *             (1) 消息的发布入口；
  *             (2) 订阅者的注册(采用扫描注解自动注册);
  *             (3) 事件们与订阅者们的结构组装;
@@ -42,7 +43,7 @@ public class EventBus implements ApplicationContextAware {
     /**
      * 重复key的map，使用监听的type，取出所有的监听器
      */
-    private static CommonMultimap<ApplicationEventType, ApplicationEventListenerHelper> map = null;
+    private static CommonMultimap<ApplicationEventType, ApplicationEventListenerDomain> map = null;
     /**
      * 默认不扫描jar包
      */
@@ -239,7 +240,7 @@ public class EventBus implements ApplicationContextAware {
      * @return
      * @since 1.0.0
      */
-    public boolean publish(final ApplicationEvent event) {
+    public boolean publish(final BaseApplicationEvent event) {
         publish(ApplicationEventType.DEFAULT_TAG, event);
         return true;
     }
@@ -252,7 +253,7 @@ public class EventBus implements ApplicationContextAware {
      * @return
      * @since 1.0.0
      */
-    public boolean publish(final String tag, final ApplicationEvent event) {
+    public boolean publish(final String tag, final BaseApplicationEvent event) {
         if (started.get()) {
             if (event == null) {
                 return false;
@@ -308,7 +309,7 @@ public class EventBus implements ApplicationContextAware {
             Listener annotation = clazz.getAnnotation(Listener.class);
             String tag = annotation.tag();
             ApplicationEventType applicationEventType = new ApplicationEventType(tag, type);
-            map.put(applicationEventType, new ApplicationEventListenerHelper(listener, annotation.enableAsync()));
+            map.put(applicationEventType, new ApplicationEventListenerDomain(listener, annotation.enableAsync()));
             if (logger.isDebugEnabled()) {
                 logger.debug(Constants.Logger.APP_MESSAGE + clazz + " init~");
             }

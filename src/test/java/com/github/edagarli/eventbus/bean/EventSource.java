@@ -1,6 +1,6 @@
 package com.github.edagarli.eventbus.bean;
 
-import com.github.edagarli.eventbus.event.ApplicationEvent;
+import com.github.edagarli.eventbus.event.BaseApplicationEvent;
 
 /**
  * @author : lurou
@@ -11,7 +11,7 @@ import com.github.edagarli.eventbus.event.ApplicationEvent;
  * Desc:
  */
 
-public class EventSource extends ApplicationEvent {
+public class EventSource extends BaseApplicationEvent {
 
     public EventSource(Object source) {
         super(source);
