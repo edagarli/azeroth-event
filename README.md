@@ -1,7 +1,7 @@
 # azeroth-event
-轻量级事件驱动插件
+基于spring轻量级事件驱动插件
 
->  公司内部使用的事件插件,  用于业务事件分发。
+>  部门内部使用的事件插件, 用于业务解耦以及事件分发。
 
 模仿的Spring中的消息事件：[详解Spring事件驱动模型](http://jinnianshilongnian.iteye.com/blog/1902886)
 
