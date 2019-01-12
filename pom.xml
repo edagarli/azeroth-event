@@ -27,9 +27,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@git.oschina.net/596392912/JFinal-event</connection>
-        <developerConnection>scm:git:git@git.oschina.net/596392912/JFinal-event.git</developerConnection>
-        <url>git@git.oschina.net/596392912/JFinal-event.git</url>
+        <connection>scm:git:git@github.com:edagarli/azeroth-event.git</connection>
+        <developerConnection>scm:git:git@github.com:edagarli/azeroth-event.git</developerConnection>
+        <url>git@github.com:edagarli/azeroth-event.git</url>
     </scm>
 
     <dependencies>
