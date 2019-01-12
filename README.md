@@ -3,7 +3,7 @@ Lightweight event-driven framework
 
 [中文说明/Chinese Documentation](https://github.com/edagarli/azeroth-event/blob/master/README_CN.md)
 
-## ## Structure diagram
+## Structure diagram
 
 ![event](static/event-driven.svg)
 
