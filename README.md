@@ -1,40 +1,33 @@
 # azeroth-event
-轻量级事件驱动插件
+Lightweight event-driven framework
 
->  部门内部使用的事件插件, 用于业务解耦以及事件分发。
+[中文说明/Chinese Documentation](https://github.com/edagarli/azeroth-event/blob/master/README_CN.md)
 
-模仿的Spring中的消息事件：[详解Spring事件驱动模型](http://jinnianshilongnian.iteye.com/blog/1902886)
-
-结合Disruptor异步处理框架：[详情Disruptor异步处理框架](https://github.com/LMAX-Exchange/disruptor)
-
-## 结构图
+## ## Structure diagram
 
 ![event](static/event.jpg)
 
-## 使用
+### Quick start
 
 ```
-// 插件配置
-// 初始化插件
+// init eventbus plugin
 EventBus plugin = new EventBus();
-// 全局开启异步,默认不开启的话即同步阻塞处理
+//Asynchronous globally enabled, if not enabled by default, synchronous blocking processing
 plugin.async(1024, 8);
-// 扫描包含有@Listener注解方法的类。2:实现ApplicationEventListener接口
-// 设置扫描jar包包括引入的第三方jar包，默认不扫描
+// Scan the class that contains the @Listener annotation method AND Implement the ApplicationEventListener interface
+//Set the scan jar package to include the imported third-party jar package, which is not scanned by default.
 plugin.scanJar();
-// 设置默认扫描的包命，默认全扫描
+// Set the default scan packet life, the default full scan
 plugin.scanPackage("com.dfire.mmt.eventbus.listener");
-// 启动插件
+// plugin start
 plugin.start();
 
-// 事件驱动
-// 发送第一个消息
+// send the first message
 plugin.publish("123", new EventSource("test"));
-// 发送第二个消息
+// send the second message
 plugin.publish("123", new EventSource("test111111"));
-// 发送带tag的消息 
-// 事件驱动一对多 发布一个事件触发多个事件处理
-// 相同tag 共存多个事件 提供优先级处理 priority的值越小,优先权重越大
+// One-to-many, one event, triggering multiple event processing
+// Coexisting multiple events with the same tag. Providing priority processing. The smaller the value of priority, the greater the priority.
 plugin.publish("test", new EventSource("123123"));
 
 Awaitility.await().atMost(2, TimeUnit.MINUTES).until(new Callable<Boolean>() {
@@ -44,7 +37,7 @@ Awaitility.await().atMost(2, TimeUnit.MINUTES).until(new Callable<Boolean>() {
    }
 });
 ```
-maven仓库~
+maven jar~
 
 ```
 <dependency>
@@ -53,19 +46,25 @@ maven仓库~
   <version>1.0.0</version>
 </dependency>
 ```
-## 更新说明
+## Release Notes
 
 >## TODO
 >
->1. 最终一致性(考虑sql持久化,增加重试机制)
->2. 支持el动态表达式
->3. 代码重构，职责更细分清晰，方便扩展
+>1. Final consistency (consider sql persistence, increase retry mechanism)
+>2. Support el dynamic expressions
+>3. Code refactoring, responsibilities are more subdivided and easy to expand
 
 >## 2019-01-12 v1.0.0
->1. 支持并发,加速服务处理效率,事件发布和异步处理能力(disruptor)
->2. 项目内服务解耦 观察者和发布者互不干涉 
->3. 模仿spring事件驱动模型 一对多即发布一个事件触发多个事件处理
->4. 增加多个监听器优先处理权 异步处理的情况下保证提交次序,不能保证执行完成的次序
->5. 异步队列支持优雅停机保证内存Channel的可靠性
->6. 增加阀值,异步模式下 ringbuffer超过阀值 自动切回同步 恢复正常再次切换成异步模式
+>1. Support concurrency, accelerate service processing efficiency, event publishing and asynchronous processing capability (disruptor)
+>2. In-project service decoupling Observers and publishers do not interfere with each other
+>3. Imitate the spring event-driven model. One-to-many release one event to trigger multiple event processing.
+>4. Add multiple listener priority processing rights. In the case of asynchronous processing, the order of submission is guaranteed, and the order of execution is not guaranteed.
+>5. Asynchronous queues support graceful downtime to ensure the reliability of memory channels
+>6. Increase the threshold. In asynchronous mode, the ringbuffer exceeds the threshold. Automatically switch back to synchronous. Return to normal and switch to asynchronous mode again.
+
+## Projects
+
+[Disruptor](https://github.com/LMAX-Exchange/disruptor)
+
+[spring event-driven model](https://dzone.com/articles/publishing-domain-events-with-spring-integration-e)
 
