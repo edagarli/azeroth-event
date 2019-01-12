@@ -7,6 +7,11 @@
 
 结合Disruptor异步处理框架：[详情Disruptor异步处理框架](https://github.com/LMAX-Exchange/disruptor)
 
+## 结构图
+
+![event](static/event.jpg)
+
+## 使用
 
 ```
 // 插件配置
@@ -39,8 +44,6 @@ Awaitility.await().atMost(2, TimeUnit.MINUTES).until(new Callable<Boolean>() {
    }
 });
 ```
-
-
 maven仓库~
 
 ```
@@ -50,9 +53,8 @@ maven仓库~
   <version>1.0.0</version>
 </dependency>
 ```
-
-
 ## 更新说明
+
 >## TODO
 >
 >1. 最终一致性(考虑sql持久化,增加重试机制)
