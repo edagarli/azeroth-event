@@ -45,7 +45,7 @@ maven仓库~
 
 ```
 <dependency>
-  <groupId>com.dfire.mmt</groupId>
+  <groupId>com.github.edagarli</groupId>
   <artifactId>azeroth-event</artifactId>
   <version>1.0.0</version>
 </dependency>
