@@ -1,0 +1,32 @@
+# maven #
+target
+
+logs
+
+# eclipse #
+.settings
+.project
+.classpath
+.log
+
+# windows #
+Thumbs.db
+
+# Mac #
+.DS_Store
+
+# Package Files #
+*.war
+*.ear
+
+# idea #
+*.iml
+.idea
+.tar.gz
+overlays
+bin
+*.tar.gz
+package*.json
+node_modules/
+logger.path_IS_UNDEFINED/*
+disconf/*
