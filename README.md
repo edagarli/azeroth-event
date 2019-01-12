@@ -18,7 +18,7 @@ plugin.async(1024, 8);
 //Set the scan jar package to include the imported third-party jar package, which is not scanned by default.
 plugin.scanJar();
 // Set the default scan packet life, the default full scan
-plugin.scanPackage("com.dfire.mmt.eventbus.listener");
+plugin.scanPackage("com.github.edagarli.eventbus.listener");
 // plugin start
 plugin.start();
 

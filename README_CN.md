@@ -19,7 +19,7 @@ plugin.async(1024, 8);
 // 设置扫描jar包包括引入的第三方jar包，默认不扫描
 plugin.scanJar();
 // 设置默认扫描的包命，默认全扫描
-plugin.scanPackage("com.dfire.mmt.eventbus.listener");
+plugin.scanPackage("com.github.edagarli.eventbus.listener");
 // 启动插件
 plugin.start();
 
