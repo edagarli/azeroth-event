@@ -11,6 +11,6 @@
     <!-- 自动扫描的包名 -->
     <context:component-scan base-package="com.dfire.mmt.eventbus"/>
     <!-- 消息总线 -->
-    <bean id="eventBus" class="com.dfire.mmt.eventbus.EventBus"/>
+    <bean id="eventBus" class="com.github.edagarli.eventbus.EventBus"/>
 
 </beans>
