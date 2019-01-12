@@ -5,7 +5,7 @@ Lightweight event-driven framework
 
 ## ## Structure diagram
 
-![event](static/event.jpg)
+![event](static/event-driven.svg)
 
 ### Quick start
 
@@ -66,5 +66,5 @@ maven jar~
 
 [Disruptor](https://github.com/LMAX-Exchange/disruptor)
 
-[spring event-driven model](https://dzone.com/articles/publishing-domain-events-with-spring-integration-e)
+[spring event-driven model](https://docs.microsoft.com/bs-latn-ba/azure/architecture/guide/architecture-styles/event-driven)
 
