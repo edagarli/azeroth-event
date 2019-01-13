@@ -1,7 +1,7 @@
 package com.github.edagarli.eventbus.command;
 
 import com.github.edagarli.eventbus.commons.Constants;
-import com.github.edagarli.eventbus.bean.ApplicationEventListenerDomain;
+import com.github.edagarli.eventbus.bean.EventListenerDomain;
 import com.github.edagarli.eventbus.event.ApplicationEventType;
 import com.github.edagarli.eventbus.event.BaseApplicationEvent;
 import com.github.edagarli.eventbus.utils.CommonMultimap;
@@ -20,7 +20,7 @@ public class CommandBus {
 
     private static RingBuffer<CommandEvent> conRingBuffer;
 
-    private static CommonMultimap<ApplicationEventType, ApplicationEventListenerDomain> map;
+    private static CommonMultimap<ApplicationEventType, EventListenerDomain> map;
 
     private static boolean enableAsync;
 
@@ -42,7 +42,7 @@ public class CommandBus {
      * @return EventBus
      * @since 1.0.0
      */
-    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, ApplicationEventListenerDomain> map, RingBuffer<CommandEvent> conRingBuffer) {
+    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, EventListenerDomain> map, RingBuffer<CommandEvent> conRingBuffer) {
         CommandBus.conRingBuffer = conRingBuffer;
         CommandBus.map = map;
         CommandBus.enableAsync = enableAsync;
@@ -56,7 +56,7 @@ public class CommandBus {
      * @return EventBus
      * @since 1.0.0
      */
-    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, ApplicationEventListenerDomain> map) {
+    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, EventListenerDomain> map) {
         CommandBus.map = map;
         CommandBus.enableAsync = enableAsync;
     }
@@ -68,7 +68,7 @@ public class CommandBus {
      * @param event  事件
      * @since 1.0.0
      */
-    private static boolean publish(final ApplicationEventListenerDomain helper, final BaseApplicationEvent event) {
+    private static boolean publish(final EventListenerDomain helper, final BaseApplicationEvent event) {
         try {
             long seq = conRingBuffer.tryNext();
             //the remaining capacity of the buffer < the size of the buffer * 0.2
@@ -79,7 +79,7 @@ public class CommandBus {
             }
             CommandEvent commandEvent = conRingBuffer.get(seq);
             commandEvent.setApplicationEvent(event);
-            commandEvent.setApplicationEventListenerDomain(helper);
+            commandEvent.setEventListenerDomain(helper);
             conRingBuffer.publish(seq);
         } catch (InsufficientCapacityException e) {
             LOGGER.error(Constants.Logger.APP_EXCEPTION + "conRingBuffer too late to consume error message,you may increase conBufferSize/asyncThreads " + e.toString());
@@ -96,9 +96,9 @@ public class CommandBus {
      * @since 1.0.0
      */
     public static void publish(final ApplicationEventType applicationEventType, final BaseApplicationEvent event) {
-        Collection<ApplicationEventListenerDomain> listenerList = map.get(applicationEventType);
+        Collection<EventListenerDomain> listenerList = map.get(applicationEventType);
         if (listenerList != null && !listenerList.isEmpty()) {
-            for (final ApplicationEventListenerDomain domain : listenerList) {
+            for (final EventListenerDomain domain : listenerList) {
                 if (enableAsync && domain.enableAsync) {
                     publish(domain, event);
                 } else {
@@ -115,7 +115,7 @@ public class CommandBus {
      * @param event  事件
      * @since 1.0.0
      */
-    public static void handle(final ApplicationEventListenerDomain domain, final BaseApplicationEvent event) {
+    public static void handle(final EventListenerDomain domain, final BaseApplicationEvent event) {
         try {
             domain.listener.onApplicationEvent(event);
         } catch (Exception e) {

@@ -1,6 +1,6 @@
 package com.github.edagarli.eventbus.channel;
 
-import com.github.edagarli.eventbus.bean.ApplicationEventListenerDomain;
+import com.github.edagarli.eventbus.bean.EventListenerDomain;
 import com.github.edagarli.eventbus.command.CommandBus;
 import com.github.edagarli.eventbus.event.ApplicationEventType;
 import com.github.edagarli.eventbus.event.BaseApplicationEvent;
@@ -17,7 +17,7 @@ public class MemoryChannel extends AbstractChannel {
 
 
     @Override
-    public void handle(ApplicationEventListenerDomain domain, BaseApplicationEvent event) {
+    public void handle(EventListenerDomain domain, BaseApplicationEvent event) {
         CommandBus.handle(domain, event);
     }
 

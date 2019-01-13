@@ -1,7 +1,7 @@
 package com.github.edagarli.eventbus.command;
 
 
-import com.github.edagarli.eventbus.bean.ApplicationEventListenerDomain;
+import com.github.edagarli.eventbus.bean.EventListenerDomain;
 import com.github.edagarli.eventbus.event.BaseApplicationEvent;
 
 /**
@@ -13,14 +13,14 @@ public class CommandEvent {
 
     private BaseApplicationEvent applicationEvent;
 
-    private ApplicationEventListenerDomain applicationEventListenerDomain;
+    private EventListenerDomain eventListenerDomain;
 
-    public ApplicationEventListenerDomain getApplicationEventListenerDomain() {
-        return applicationEventListenerDomain;
+    public EventListenerDomain getEventListenerDomain() {
+        return eventListenerDomain;
     }
 
-    public void setApplicationEventListenerDomain(ApplicationEventListenerDomain applicationEventListenerDomain) {
-        this.applicationEventListenerDomain = applicationEventListenerDomain;
+    public void setEventListenerDomain(EventListenerDomain eventListenerDomain) {
+        this.eventListenerDomain = eventListenerDomain;
     }
 
     public BaseApplicationEvent getApplicationEvent() {

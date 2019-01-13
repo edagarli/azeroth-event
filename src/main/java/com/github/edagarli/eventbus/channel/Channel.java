@@ -1,7 +1,7 @@
-package com.github.edagarli.eventbus;
+package com.github.edagarli.eventbus.channel;
 
 
-import com.github.edagarli.eventbus.bean.ApplicationEventListenerDomain;
+import com.github.edagarli.eventbus.bean.EventListenerDomain;
 import com.github.edagarli.eventbus.event.BaseApplicationEvent;
 
 /**
@@ -21,7 +21,7 @@ public interface Channel {
      * @param event  事件
      * @return
      */
-    void handle(final ApplicationEventListenerDomain helper, final BaseApplicationEvent event);
+    void handle(final EventListenerDomain helper, final BaseApplicationEvent event);
 
 
     /**

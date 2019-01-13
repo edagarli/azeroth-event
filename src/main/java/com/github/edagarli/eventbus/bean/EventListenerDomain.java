@@ -11,7 +11,7 @@ import com.github.edagarli.eventbus.event.ApplicationEventListener;
  * Time: 23:40
  * Desc: 监听器工具类用于，用于数据暂存对象
  */
-public class ApplicationEventListenerDomain {
+public class EventListenerDomain {
 
     /**
      * 监听器
@@ -29,7 +29,7 @@ public class ApplicationEventListenerDomain {
      * @param enableAsync
      * @since 1.0.0
      */
-    public ApplicationEventListenerDomain(ApplicationEventListener listener, boolean enableAsync) {
+    public EventListenerDomain(ApplicationEventListener listener, boolean enableAsync) {
         this.listener = listener;
         this.enableAsync = enableAsync;
     }

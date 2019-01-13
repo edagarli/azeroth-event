@@ -1,8 +1,6 @@
 package com.github.edagarli.eventbus.channel;
 
 
-import com.github.edagarli.eventbus.Channel;
-
 /**
  * @author edagarli(卤肉)
  * Email: lizhi@edagarli.com

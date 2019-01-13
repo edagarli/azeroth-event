@@ -1,6 +1,7 @@
 package com.github.edagarli.eventbus;
 
-import com.github.edagarli.eventbus.bean.ApplicationEventListenerDomain;
+import com.github.edagarli.eventbus.bean.EventListenerDomain;
+import com.github.edagarli.eventbus.channel.Channel;
 import com.github.edagarli.eventbus.channel.MemoryChannel;
 import com.github.edagarli.eventbus.command.CommandBus;
 import com.github.edagarli.eventbus.commons.Constants;
@@ -43,7 +44,7 @@ public class EventBus implements ApplicationContextAware {
     /**
      * 重复key的map，使用监听的type，取出所有的监听器
      */
-    private static CommonMultimap<ApplicationEventType, ApplicationEventListenerDomain> map = null;
+    private static CommonMultimap<ApplicationEventType, EventListenerDomain> map = null;
     /**
      * 默认不扫描jar包
      */
@@ -309,7 +310,7 @@ public class EventBus implements ApplicationContextAware {
             Listener annotation = clazz.getAnnotation(Listener.class);
             String tag = annotation.tag();
             ApplicationEventType applicationEventType = new ApplicationEventType(tag, type);
-            map.put(applicationEventType, new ApplicationEventListenerDomain(listener, annotation.enableAsync()));
+            map.put(applicationEventType, new EventListenerDomain(listener, annotation.enableAsync()));
             if (logger.isDebugEnabled()) {
                 logger.debug(Constants.Logger.APP_MESSAGE + clazz + " init~");
             }

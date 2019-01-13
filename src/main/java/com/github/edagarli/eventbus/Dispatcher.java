@@ -1,5 +1,6 @@
 package com.github.edagarli.eventbus;
 
+import com.github.edagarli.eventbus.channel.Channel;
 import com.github.edagarli.eventbus.command.CommandEvent;
 import com.github.edagarli.eventbus.command.CommandEventExceptionHandler;
 import com.lmax.disruptor.EventFactory;
@@ -83,7 +84,7 @@ public class Dispatcher {
 
                 @Override
                 public void onEvent(CommandEvent commandEvent) throws Exception {
-                    channel.handle(commandEvent.getApplicationEventListenerDomain(), commandEvent.getApplicationEvent());
+                    channel.handle(commandEvent.getEventListenerDomain(), commandEvent.getApplicationEvent());
                 }
             });
             conDisruptor.handleEventsWithWorkerPool(handlers);
