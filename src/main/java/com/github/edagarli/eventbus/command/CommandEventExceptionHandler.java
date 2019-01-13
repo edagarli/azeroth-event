@@ -37,7 +37,7 @@ public class CommandEventExceptionHandler<E extends CommandEvent> implements Exc
      */
     @Override
     public void handleEventException(Throwable ex, long sequence, E event) {
-        logger.error(Constants.Logger.APP_EXCEPTION + "[{}] Event Exception:{},event:{}", disruptor, ex, event);
+        logger.error(Constants.Logger.EXCEPTION + "[{}] Event Exception:{},event:{}", disruptor, ex, event);
     }
 
     /**
@@ -48,7 +48,7 @@ public class CommandEventExceptionHandler<E extends CommandEvent> implements Exc
      */
     @Override
     public void handleOnStartException(Throwable ex) {
-        logger.error(Constants.Logger.APP_EXCEPTION + "[{}] on start Exception:{}", disruptor, ex);
+        logger.error(Constants.Logger.EXCEPTION + "[{}] on start Exception:{}", disruptor, ex);
     }
 
     /**
@@ -59,6 +59,6 @@ public class CommandEventExceptionHandler<E extends CommandEvent> implements Exc
      */
     @Override
     public void handleOnShutdownException(Throwable ex) {
-        logger.error(Constants.Logger.APP_EXCEPTION + "[{}] on shutdown Exception :", disruptor, ex);
+        logger.error(Constants.Logger.EXCEPTION + "[{}] on shutdown Exception :", disruptor, ex);
     }
 }

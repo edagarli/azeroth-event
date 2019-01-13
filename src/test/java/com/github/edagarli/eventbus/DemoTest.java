@@ -57,6 +57,8 @@ public class DemoTest {
 
         eventBus.publish("123", new EventSource("test111111"));
 
+        eventBus.publish("test", new EventSource("test third"));
+
         Awaitility.await().atMost(2, TimeUnit.MINUTES).until(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {

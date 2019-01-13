@@ -13,8 +13,8 @@ public class Constants {
      * 日志信息
      */
     public static class Logger {
-        public static final String APP_EXCEPTION = "APP> Exception:";
-        public static final String APP_MESSAGE = "APP> ";
+        public static final String EXCEPTION = "Exception:";
+        public static final String MESSAGE = " ";
 
         private Logger() {
             throw new IllegalAccessError();

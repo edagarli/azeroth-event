@@ -1,4 +1,4 @@
-package com.github.edagarli.eventbus;
+package com.github.edagarli.eventbus.listener;
 
 import com.github.edagarli.eventbus.event.ApplicationEventType;
 

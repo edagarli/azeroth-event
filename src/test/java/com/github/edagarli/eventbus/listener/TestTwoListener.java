@@ -1,6 +1,5 @@
 package com.github.edagarli.eventbus.listener;
 
-import com.github.edagarli.eventbus.Listener;
 import com.github.edagarli.eventbus.bean.EventSource;
 import com.github.edagarli.eventbus.event.ApplicationEventListener;
 import org.springframework.stereotype.Component;

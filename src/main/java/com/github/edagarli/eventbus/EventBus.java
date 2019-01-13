@@ -4,20 +4,16 @@ import com.github.edagarli.eventbus.bean.EventListenerDomain;
 import com.github.edagarli.eventbus.channel.Channel;
 import com.github.edagarli.eventbus.channel.MemoryChannel;
 import com.github.edagarli.eventbus.command.CommandBus;
-import com.github.edagarli.eventbus.commons.Constants;
-import com.github.edagarli.eventbus.event.ApplicationEventListener;
 import com.github.edagarli.eventbus.event.ApplicationEventType;
 import com.github.edagarli.eventbus.event.BaseApplicationEvent;
-import com.github.edagarli.eventbus.utils.ClassUtil;
+import com.github.edagarli.eventbus.listener.ListenerRegister;
 import com.github.edagarli.eventbus.utils.CommonMultimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -36,7 +32,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *         </pre>
  */
 public class EventBus implements ApplicationContextAware {
+
     private static Logger logger = LoggerFactory.getLogger(EventBus.class);
+
+    private ApplicationContext applicationContext;
     /**
      * 通道
      */
@@ -73,8 +72,6 @@ public class EventBus implements ApplicationContextAware {
      * 分发器
      */
     private Dispatcher dispatcher;
-
-    private ApplicationContext applicationContext;
 
     /**
      * 构造EventBus
@@ -118,7 +115,6 @@ public class EventBus implements ApplicationContextAware {
 
     /**
      * 注册事件通道
-     *
      * @return EventBus
      * @since 1.0.0
      */
@@ -128,7 +124,6 @@ public class EventBus implements ApplicationContextAware {
 
     /**
      * 注册事件通道
-     *
      * @param channel 事件处理通道
      * @return EventBus
      * @since 1.0.0
@@ -140,7 +135,6 @@ public class EventBus implements ApplicationContextAware {
 
     /**
      * 开启全局异步
-     *
      * @return EventBus
      * @since 1.0.0
      */
@@ -188,7 +182,6 @@ public class EventBus implements ApplicationContextAware {
 
     /**
      * eventBus启动
-     *
      * @return
      * @since 1.0.0
      */
@@ -197,7 +190,11 @@ public class EventBus implements ApplicationContextAware {
             logger.error("Event Bus is Running!");
             return false;
         }
-        registerListener();
+
+        if (null == map) {
+            map = new ListenerRegister(this).registerListener();
+        }
+
         if (enableAsync) {
             if (dispatcher != null) {
                 dispatcher.stop();
@@ -267,72 +264,6 @@ public class EventBus implements ApplicationContextAware {
         return true;
     }
 
-    /**
-     * 注册订阅者[需要在event-bus启动之前]
-     * <p>
-     * 订阅者包括：1：包含有@Listener注解方法的类。2:实现ApplicationEventListener接口(待实现)
-     *
-     * @since 1.0.0
-     */
-    private synchronized void registerListener() {
-        if (null != map) {
-            return;
-        }
-        // 扫描注解
-        Set<Class<?>> clazzSet = ClassUtil.scanPackageByAnnotation(scanPackage, scanJar, Listener.class);
-        if (clazzSet.isEmpty()) {
-            logger.error(Constants.Logger.APP_EXCEPTION + "Listener is empty! Please check it!");
-        }
-        List<Class<? extends ApplicationEventListener>> allListeners = new ArrayList<>();
-        // 装载所有 {@code ApplicationEventListener} 的子类
-        Class superClass;
-        for (Class<?> clazz : clazzSet) {
-            superClass = ApplicationEventListener.class;
-            if (superClass.isAssignableFrom(clazz) && !superClass.equals(clazz)) {
-                allListeners.add((Class<? extends ApplicationEventListener>) clazz);
-            }
-        }
-        if (allListeners.isEmpty()) {
-            logger.error(Constants.Logger.APP_EXCEPTION + "Listener is empty! Please check @Listener is right?");
-        }
-        // 监听器排序
-        sortListeners(allListeners);
-        // 重复key的map，使用监听的type，取出所有的监听器
-        map = new CommonMultimap<>();
-        Type type;
-        ApplicationEventListener listener;
-        for (Class<? extends ApplicationEventListener> clazz : allListeners) {
-            // 获取监听器上的泛型信息
-            type = ((ParameterizedType) clazz.getGenericInterfaces()[0]).getActualTypeArguments()[0];
-            // 实例化监听器(改成用spring管理注解)
-            listener = applicationContext.getBean(clazz);
-            // 监听器上的注解
-            Listener annotation = clazz.getAnnotation(Listener.class);
-            String tag = annotation.tag();
-            ApplicationEventType applicationEventType = new ApplicationEventType(tag, type);
-            map.put(applicationEventType, new EventListenerDomain(listener, annotation.enableAsync()));
-            if (logger.isDebugEnabled()) {
-                logger.debug(Constants.Logger.APP_MESSAGE + clazz + " init~");
-            }
-        }
-    }
-
-    /**
-     * 对所有的监听器进行排序
-     */
-    private void sortListeners(List<Class<? extends ApplicationEventListener>> listeners) {
-        Collections.sort(listeners, new Comparator<Class<? extends ApplicationEventListener>>() {
-
-            @Override
-            public int compare(Class<? extends ApplicationEventListener> o1,
-                               Class<? extends ApplicationEventListener> o2) {
-
-                int x = o1.getAnnotation(Listener.class).priority();
-                int y = o2.getAnnotation(Listener.class).priority();
-                return (x < y) ? -1 : ((x == y) ? 0 : 1);
-            }
-        });
-    }
 
     public Channel getChannel() {
         return channel;
@@ -354,8 +285,20 @@ public class EventBus implements ApplicationContextAware {
         this.asyncThreads = asyncThreads;
     }
 
+    public boolean isScanJar() {
+        return scanJar;
+    }
+
+    public String getScanPackage() {
+        return scanPackage;
+    }
+
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 }

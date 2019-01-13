@@ -338,7 +338,7 @@ public final class ClassUtil {
                 }
             }
         } catch (Throwable ex) {
-            logger.error(Constants.Logger.APP_EXCEPTION + ex.getMessage(), ex);
+            logger.error(Constants.Logger.EXCEPTION + ex.getMessage(), ex);
         }
     }
 

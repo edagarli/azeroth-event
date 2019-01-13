@@ -63,7 +63,6 @@ public class CommandBus {
 
     /**
      * 发布事件
-     *
      * @param helper 处理器
      * @param event  事件
      * @since 1.0.0
@@ -75,14 +74,14 @@ public class CommandBus {
             //队列超出阀值得时候 取消队列并发消费 日志输出提示告警
             if (conRingBuffer.remainingCapacity() < conRingBuffer.getBufferSize() * 0.2) {
                 enableAsync = false;
-                LOGGER.warn(Constants.Logger.APP_MESSAGE + "commandBus consume warn message, remainingCapacity size:" + conRingBuffer.remainingCapacity() + ",conRingBuffer size:" + conRingBuffer.getBufferSize());
+                LOGGER.warn(Constants.Logger.MESSAGE + "commandBus consume warn message, remainingCapacity size:" + conRingBuffer.remainingCapacity() + ",conRingBuffer size:" + conRingBuffer.getBufferSize());
             }
             CommandEvent commandEvent = conRingBuffer.get(seq);
             commandEvent.setApplicationEvent(event);
             commandEvent.setEventListenerDomain(helper);
             conRingBuffer.publish(seq);
         } catch (InsufficientCapacityException e) {
-            LOGGER.error(Constants.Logger.APP_EXCEPTION + "conRingBuffer too late to consume error message,you may increase conBufferSize/asyncThreads " + e.toString());
+            LOGGER.error(Constants.Logger.EXCEPTION + "conRingBuffer too late to consume error message,you may increase conBufferSize/asyncThreads " + e.toString());
             return false;
         }
         return true;
@@ -90,7 +89,6 @@ public class CommandBus {
 
     /**
      * 发布事件
-     *
      * @param applicationEventType 事件封装
      * @param event                事件
      * @since 1.0.0
@@ -110,7 +108,6 @@ public class CommandBus {
 
     /**
      * 处理事件
-     *
      * @param domain 事件处理器
      * @param event  事件
      * @since 1.0.0
@@ -119,7 +116,7 @@ public class CommandBus {
         try {
             domain.listener.onApplicationEvent(event);
         } catch (Exception e) {
-            LOGGER.error(Constants.Logger.APP_EXCEPTION + "commandBus handle event error message" + e.toString());
+            LOGGER.error(Constants.Logger.EXCEPTION + "commandBus handle event error message" + e.toString());
         }
     }
 

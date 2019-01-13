@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
  * Desc:
  */
 @Component
-@Listener(priority = 2, tag = "123", enableAsync = false)
-public class TestListener implements ApplicationEventListener<EventSource> {
+@Listener(priority = 1, tag = "test", enableAsync = true)
+public class TestThreeListener implements ApplicationEventListener<EventSource> {
 
     @Override
     public void onApplicationEvent(EventSource event) {
-        System.out.println("i am one====>>>" + event);
+        System.out.println("i am three====>>>" + event);
     }
 
 }

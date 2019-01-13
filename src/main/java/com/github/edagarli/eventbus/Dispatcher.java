@@ -43,7 +43,6 @@ public class Dispatcher {
 
     private volatile boolean running;
 
-
     protected Dispatcher(EventBus eventBus) {
         this.eventBus = eventBus;
         this.running = false;
