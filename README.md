@@ -3,9 +3,13 @@ Lightweight event-driven framework
 
 [中文说明/Chinese Documentation](https://github.com/edagarli/azeroth-event/blob/master/README_CN.md)
 
+>Better decoupling between components allows us to decouple our modules and domain boundaries in a domain-driven design (DDD) with a weak reference nature of events.
+ 
+>Originally used as an internal plugin for business decoupling and event distribution. In the ongoing optimization, interested can pay attention to it.
+
 ## Structure diagram
 
-![event](static/event-driven.svg)
+![event](static/event.png)
 
 ### Quick start
 
@@ -48,11 +52,13 @@ maven jar~
 ```
 ## Release Notes
 
->## TODO
+>## DOING
 >
->1. Final consistency (consider sql persistence, increase retry mechanism)
->2. Support el dynamic expressions
->3. Code refactoring, responsibilities are more subdivided and easy to expand
+>1. Code refactoring, internal responsibilities are more subdivided, and convenient for extended point expansion
+>2. Improvement of execution strategy
+>3. Support rule triggering, support time rule triggering
+>4. Support el dynamic expressions
+>5. Final consistency (persistent processing such as placement, increase retry mechanism)
 
 >## 2019-01-12 v1.0.0
 >1. Support concurrency, accelerate service processing efficiency, event publishing and asynchronous processing capability (disruptor)
