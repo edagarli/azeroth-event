@@ -42,7 +42,8 @@ public class CommandBus {
      * @return EventBus
      * @since 1.0.0
      */
-    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, EventListenerDomain> map, RingBuffer<CommandEvent> conRingBuffer) {
+    public static void init(boolean enableAsync, CommonMultimap<ApplicationEventType, EventListenerDomain> map,
+        RingBuffer<CommandEvent> conRingBuffer) {
         CommandBus.conRingBuffer = conRingBuffer;
         CommandBus.map = map;
         CommandBus.enableAsync = enableAsync;
@@ -74,14 +75,17 @@ public class CommandBus {
             //队列超出阀值得时候 取消队列并发消费 日志输出提示告警
             if (conRingBuffer.remainingCapacity() < conRingBuffer.getBufferSize() * 0.2) {
                 enableAsync = false;
-                LOGGER.warn(Constants.Logger.MESSAGE + "commandBus consume warn message, remainingCapacity size:" + conRingBuffer.remainingCapacity() + ",conRingBuffer size:" + conRingBuffer.getBufferSize());
+                LOGGER.warn(Constants.Logger.MESSAGE + "commandBus consume warn message, remainingCapacity size:" +
+                    conRingBuffer.remainingCapacity() + ",conRingBuffer size:" + conRingBuffer.getBufferSize());
             }
+
             CommandEvent commandEvent = conRingBuffer.get(seq);
             commandEvent.setApplicationEvent(event);
             commandEvent.setEventListenerDomain(helper);
             conRingBuffer.publish(seq);
         } catch (InsufficientCapacityException e) {
-            LOGGER.error(Constants.Logger.EXCEPTION + "conRingBuffer too late to consume error message,you may increase conBufferSize/asyncThreads " + e.toString());
+            LOGGER.error(Constants.Logger.EXCEPTION + "conRingBuffer too late to consume error message,"
+                + "you may increase conBufferSize/asyncThreads " + e.toString());
             return false;
         }
         return true;
