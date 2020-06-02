@@ -68,7 +68,7 @@ public class Dispatcher {
     /**
      * 分发器start
      * <pre>
-     *
+     *   构建事件异步处理队列disruptor，初始化并发消费线程
      * </pre>
      * @return Dispatcher
      * @since 1.0.0
